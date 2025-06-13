@@ -1,0 +1,25 @@
+import requests
+
+def convert_currency(amount, from_currency, to_currency):
+    url = f"https://api.exchangerate.host/convert"
+    params = {
+        "from": from_currency.upper(),
+        "to": to_currency.upper(),
+        "amount": amount
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        data = response.json()
+
+        if data.get("success", False):
+            result = data["result"]
+            print(f"{amount:.2f} {from_currency.upper()} = {result:.2f} {to_currency.upper()}")
+            return result
+        else:
+            print("Error: Could not retrieve exchange rate.")
+            return None
+
+    except Exception as e:
+        print("Error:", e)
+        return None
